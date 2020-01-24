@@ -24,12 +24,15 @@ class ForgotPasswordController {
 
             /*Envia o email de recuperação */
            
-              await Mail.send(
-                ['emails.forgot'],
+            const token =  user.token
+            const link = `${request.input('redirect_url')}?token=${token}`
+
+            await Mail.send(
+                'emails.reset',
                 {
                     email,
-                    token: user.token,
-                    link: `${request.input('redirect_url')}?token=${token}`
+                    token,
+                    link
                 },
                 message => {
                     message
